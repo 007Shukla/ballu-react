@@ -142,17 +142,38 @@ const Doctors = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const appointmentData = {
-      doctorName: selectedDoctor.name,
-      doctorSpecialty: selectedDoctor.specialty,
-      ...formData
-    };
-    console.log('Appointment booked:', appointmentData);
-    alert(`Appointment booked with ${selectedDoctor.name} for ${formData.date} at ${formData.time}`);
-    handleCloseModal();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const appointmentData = {
+    doctorName: selectedDoctor.name,
+    doctorSpecialty: selectedDoctor.specialty,
+    ...formData
   };
+
+  try {
+    const response = await fetch("http://localhost:8080/api/appointments/book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(appointmentData),
+    });
+
+    const result = await response.json();
+
+    if (result) {
+      alert(`Appointment booked with ${selectedDoctor.name} for ${formData.date} at ${formData.time}`);
+      handleCloseModal();
+    } else {
+      alert(result.message || "Failed to book appointment.");
+    }
+  } catch (error) {
+    console.error("Error booking appointment:", error);
+    alert("Something went wrong while booking the appointment.");
+  }
+};
+
 
   return (
     <section id="doctors" className="doctors-section">

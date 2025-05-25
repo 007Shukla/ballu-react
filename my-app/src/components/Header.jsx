@@ -1,42 +1,35 @@
-
 import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Header = ({ onSignupClick }) => {
+const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
-  
-  const handleSignupClick = (e) => {
-    e.preventDefault();
-    onSignupClick();
-    setMenuOpen(false);
-  }
 
   return (
     <header>
       <Link to="/" className="logo">
         <span>D</span>octors <span>C</span>ares.
-      </Link>
-      
+      </Link>2
+
       <div className="menu-toggle" onClick={toggleMenu}>
         {menuOpen ? <FaTimes /> : <FaBars />}
       </div>
-      
+
       <nav className={`navbar ${menuOpen ? 'active' : ''}`}>
         <ul>
-          <li><Link to="/">home</Link></li>
-          <li><Link to="/about">about</Link></li>
-          <li><Link to="/doctors">doctor</Link></li>
-          <li><Link to="/reviews">review</Link></li>
-          <li><Link to="/contact">contact</Link></li>
-          <li><Link to="/blog">blog</Link></li>
-          <li><a href="#" onClick={handleSignupClick}>Login/SignUp</a></li>
+          <li><Link to="/" onClick={() => setMenuOpen(false)}>home</Link></li>
+          <li><Link to="/about" onClick={() => setMenuOpen(false)}>about</Link></li>
+          <li><Link to="/doctors" onClick={() => setMenuOpen(false)}>doctor</Link></li>
+          <li><Link to="/reviews" onClick={() => setMenuOpen(false)}>review</Link></li>
+          <li><Link to="/contact" onClick={() => setMenuOpen(false)}>contact</Link></li>
+          <li><Link to="/blog" onClick={() => setMenuOpen(false)}>blog</Link></li>
+          <li><Link to="/login" onClick={() => setMenuOpen(false)}>Login/SignUp</Link></li>
         </ul>
       </nav>
     </header>
   );
-}
+};
 
 export default Header;
